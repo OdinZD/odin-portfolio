@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{{ $title ?? 'Web applications, built to ship' }} — {{ config('app.name') }}</title>
+        <meta name="description" content="{{ $description ?? 'Odin Wolf builds and ships production web applications for founders and teams.' }}">
+
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+        @fonts
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
+    </head>
+    <body class="bg-paper bg-grain text-ink antialiased min-h-screen flex flex-col">
+        <a href="#main"
+           class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:text-paper focus:px-4 focus:py-2 focus:font-mono focus:text-sm">
+            Skip to content
+        </a>
+
+        <x-nav />
+
+        <main id="main" class="flex-1">
+            {{ $slot }}
+        </main>
+
+        <x-footer />
+
+        @livewireScripts
+    </body>
+</html>
