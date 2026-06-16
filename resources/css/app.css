@@ -1,0 +1,108 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+/*
+ | Amber Terminal Manuscript
+ | A light, retro-typewriter identity: warm oat paper, ink, amber + teal,
+ | with rust reserved for rubber-stamp accents.
+ */
+@theme {
+    /* Palette */
+    --color-paper: #f4eddf;
+    --color-paper-deep: #ece3d1;
+    --color-card: #fcf8ee;
+    --color-ink: #221f1a;
+    --color-ink-soft: #5b5447;
+    --color-line: #d8cdb6;
+    --color-amber: #e0a126;
+    --color-amber-deep: #b87f12;
+    --color-teal: #2c6b66;
+    --color-teal-deep: #1f4f4b;
+    --color-rust: #b5452e;
+
+    /* Type */
+    --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Space Mono', ui-monospace, 'Cascadia Code', 'Courier New', monospace;
+    --font-display: 'Space Mono', ui-monospace, 'Courier New', monospace;
+
+    /* Motion */
+    --animate-blink: blink 1.05s steps(1, end) infinite;
+}
+
+@keyframes blink {
+    0%,
+    50% {
+        opacity: 1;
+    }
+    50.01%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+        background-color: var(--color-amber);
+        color: var(--color-ink);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    /* Visible, on-brand keyboard focus everywhere. */
+    :focus-visible {
+        outline: 2px solid var(--color-teal);
+        outline-offset: 3px;
+        border-radius: 2px;
+    }
+}
+
+/* Subtle paper grain — applied to large surfaces, never on text. */
+@utility bg-grain {
+    background-image:
+        radial-gradient(transparent 0, transparent 60%, rgba(34, 31, 26, 0.018) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Blinking block caret used by the typewriter. */
+@utility caret {
+    display: inline-block;
+    width: 0.62ch;
+    height: 1.05em;
+    margin-left: 0.12em;
+    transform: translateY(0.16em);
+    background-color: var(--color-amber);
+    animation: var(--animate-blink);
+}
+
+/* Dotted "tab-stop" leader between a label and its value (typed-form feel). */
+@utility dot-leader {
+    flex: 1 1 auto;
+    margin: 0 0.6rem;
+    border-bottom: 1px dotted var(--color-line);
+    transform: translateY(-0.28em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    .caret {
+        animation: none;
+    }
+}
