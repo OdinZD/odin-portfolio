@@ -9,6 +9,8 @@
     $isLive = strtolower($status) === 'live';
     $tone = $isLive ? 'text-teal border-teal' : 'text-rust border-rust';
     $shortYear = $year ? "'" . substr((string) $year, -2) : null;
+    // Style by the canonical English status; display a localized label.
+    $label = __('common.statuses.' . ($isLive ? 'live' : 'shipped'));
 @endphp
 
 <span
@@ -16,5 +18,5 @@
     style="transform: rotate({{ $rotate }});"
 >
     <span aria-hidden="true" class="text-[0.6rem]">{{ $isLive ? '●' : '✓' }}</span>
-    {{ $status }}@if ($shortYear) <span class="opacity-70">{{ $shortYear }}</span>@endif
+    {{ $label }}@if ($shortYear) <span class="opacity-70">{{ $shortYear }}</span>@endif
 </span>

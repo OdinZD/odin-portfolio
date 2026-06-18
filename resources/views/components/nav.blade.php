@@ -1,10 +1,11 @@
 @php
     $links = [
-        ['label' => 'Home', 'route' => 'home', 'active' => 'home'],
-        ['label' => 'Projects', 'route' => 'projects.index', 'active' => 'projects.*'],
-        ['label' => 'About', 'route' => 'about', 'active' => 'about'],
-        ['label' => 'Contact', 'route' => 'contact', 'active' => 'contact'],
+        ['label' => __('nav.home'), 'route' => 'home', 'active' => 'home'],
+        ['label' => __('nav.projects'), 'route' => 'projects.index', 'active' => 'projects.*'],
+        ['label' => __('nav.about'), 'route' => 'about', 'active' => 'about'],
+        ['label' => __('nav.contact'), 'route' => 'contact', 'active' => 'contact'],
     ];
+    $locales = config('app.available_locales');
 @endphp
 
 <header
@@ -13,7 +14,7 @@
 >
     <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8">
         {{-- Logo --}}
-        <a href="{{ route('home') }}" class="group inline-flex items-center" aria-label="Odin Wolf — home">
+        <a href="{{ route('home') }}" class="group inline-flex items-center" aria-label="{{ __('nav.home_aria') }}">
             <img
                 src="{{ asset('images/Odin-Wolf.png') }}"
                 alt="Odin Wolf"
@@ -42,7 +43,25 @@
                     @endif
                 </a>
             @endforeach
-            <x-btn :href="route('contact')" variant="primary" size="sm">Start a project</x-btn>
+
+            {{-- Language switcher --}}
+            <div class="flex items-center gap-1.5 border-l border-line pl-5 font-mono text-xs" role="group" aria-label="{{ __('nav.language') }}">
+                @foreach ($locales as $code => $label)
+                    @php $isCurrent = app()->getLocale() === $code; @endphp
+                    <a
+                        href="{{ route('locale.switch', $code) }}"
+                        @class([
+                            'uppercase tracking-[0.1em] transition-colors',
+                            'text-amber-deep' => $isCurrent,
+                            'text-ink-soft hover:text-ink' => ! $isCurrent,
+                        ])
+                        @if ($isCurrent) aria-current="true" @endif
+                    >{{ $label }}</a>
+                    @if (! $loop->last)<span aria-hidden="true" class="text-line">/</span>@endif
+                @endforeach
+            </div>
+
+            <x-btn :href="route('contact')" variant="primary" size="sm">{{ __('nav.start_project') }}</x-btn>
         </nav>
 
         {{-- Mobile toggle --}}
@@ -53,7 +72,7 @@
             :aria-expanded="open.toString()"
             aria-controls="mobile-menu"
         >
-            <span x-text="open ? 'close' : 'menu'">menu</span>
+            <span x-text="open ? '{{ __('nav.close') }}' : '{{ __('nav.menu') }}'">{{ __('nav.menu') }}</span>
             <span class="grid h-6 w-6 place-items-center border border-ink">
                 <span x-show="!open" aria-hidden="true">+</span>
                 <span x-show="open" aria-hidden="true" x-cloak>×</span>
@@ -89,6 +108,24 @@
                     </a>
                 </li>
             @endforeach
+            <li>
+                <div class="flex items-center gap-3 py-4 font-mono text-sm" role="group" aria-label="{{ __('nav.language') }}">
+                    <span class="text-ink-soft">{{ __('nav.language') }}:</span>
+                    @foreach ($locales as $code => $label)
+                        @php $isCurrent = app()->getLocale() === $code; @endphp
+                        <a
+                            href="{{ route('locale.switch', $code) }}"
+                            @class([
+                                'uppercase tracking-[0.1em]',
+                                'text-amber-deep' => $isCurrent,
+                                'text-ink' => ! $isCurrent,
+                            ])
+                            @if ($isCurrent) aria-current="true" @endif
+                        >{{ $label }}</a>
+                        @if (! $loop->last)<span aria-hidden="true" class="text-line">/</span>@endif
+                    @endforeach
+                </div>
+            </li>
         </ul>
     </nav>
 </header>

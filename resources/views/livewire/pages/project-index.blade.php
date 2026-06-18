@@ -1,20 +1,19 @@
 <div>
     {{-- Header --}}
     <section class="mx-auto max-w-5xl px-5 pt-16 sm:px-8 sm:pt-24">
-        <x-eyebrow class="mb-6">The work</x-eyebrow>
+        <x-eyebrow class="mb-6">{{ __('projects.index_eyebrow') }}</x-eyebrow>
         <h1 class="max-w-3xl font-mono text-3xl font-bold leading-[1.12] tracking-tight text-ink sm:text-5xl">
-            Finished web applications, filed and shipped.
+            {{ __('projects.index_heading') }}
         </h1>
         <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-            A selection of products I've designed and built. Each one is a real application
-            people use — open a file to read how it came together.
+            {{ __('projects.index_intro') }}
         </p>
     </section>
 
     {{-- Filter bar --}}
     <section class="mx-auto max-w-5xl px-5 pt-12 sm:px-8">
         <div class="flex flex-wrap items-center gap-2 border-y border-line py-4">
-            <span class="mr-2 font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">Filter</span>
+            <span class="mr-2 font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">{{ __('projects.filter') }}</span>
 
             <button
                 type="button"
@@ -26,7 +25,7 @@
                 ])
                 @if ($tech === '') aria-current="true" @endif
             >
-                All
+                {{ __('projects.all') }}
             </button>
 
             @foreach ($tags as $tag)
@@ -49,7 +48,7 @@
     {{-- Grid --}}
     <section class="mx-auto max-w-5xl px-5 pb-10 pt-10 sm:px-8">
         <p class="mb-6 font-mono text-xs text-ink-soft">
-            {{ $projects->count() }} {{ $projects->count() === 1 ? 'project' : 'projects' }}@if ($tech) <span class="text-ink">·</span> filtered by <span class="text-amber-deep">{{ $tech }}</span>@endif
+            {{ trans_choice('projects.count', $projects->count(), ['count' => $projects->count()]) }}@if ($tech) <span class="text-ink">·</span> {{ __('projects.filtered_by') }} <span class="text-amber-deep">{{ $tech }}</span>@endif
         </p>
 
         @if ($projects->isNotEmpty())
@@ -60,9 +59,9 @@
             </div>
         @else
             <div class="border border-dashed border-line bg-card p-12 text-center">
-                <p class="font-mono text-sm text-ink-soft">No projects match that filter.</p>
+                <p class="font-mono text-sm text-ink-soft">{{ __('projects.none_match') }}</p>
                 <button type="button" wire:click="$set('tech', '')" class="mt-3 font-mono text-sm text-teal hover:text-amber-deep">
-                    ← Clear filter
+                    {{ __('projects.clear_filter') }}
                 </button>
             </div>
         @endif

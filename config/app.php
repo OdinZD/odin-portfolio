@@ -86,6 +86,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | The languages the site can be viewed in. Used by the SetLocale middleware,
+    | the locale-switch route, and the language switcher in the navigation. Keys
+    | are the locale codes; values are the names shown in the switcher.
+    |
+    */
+
+    'available_locales' => [
+        'en' => 'EN',
+        'hr' => 'HR',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

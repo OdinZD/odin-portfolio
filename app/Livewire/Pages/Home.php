@@ -7,11 +7,9 @@ namespace App\Livewire\Pages;
 use App\Models\Project;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
-#[Title('Web applications, built to ship')]
 final class Home extends Component
 {
     public function render(): View
@@ -19,6 +17,6 @@ final class Home extends Component
         return view('livewire.pages.home', [
             'featured' => Project::featured()->ordered()->take(3)->get(),
             'shipped' => Project::count(),
-        ]);
+        ])->title(__('common.meta_title'));
     }
 }

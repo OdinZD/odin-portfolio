@@ -30,6 +30,23 @@ final class Project extends Model
     }
 
     /**
+     * Localized project copy: pulls `work.{slug}.{field}` from the lang files for
+     * the active locale, falling back to the stored (English) column when there is
+     * no translation. Used for title, tagline, body, role, and status.
+     */
+    public function t(string $field): string
+    {
+        $key = "work.{$this->slug}.{$field}";
+        $value = __($key);
+
+        if (is_string($value) && $value !== $key) {
+            return $value;
+        }
+
+        return (string) ($this->getAttribute($field) ?? '');
+    }
+
+    /**
      * Default ordering: curated sort order, newest first.
      *
      * @param  Builder<Project>  $query

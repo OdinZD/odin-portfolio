@@ -15,31 +15,31 @@
                 ? $project->cover_image
                 : asset('images/projects/' . $project->cover_image))
             : null;
-        $paragraphs = preg_split('/\n\s*\n/', trim((string) $project->body));
+        $paragraphs = preg_split('/\n\s*\n/', trim($project->t('body')));
     @endphp
 
     {{-- Header --}}
     <section class="mx-auto max-w-5xl px-5 pt-12 sm:px-8 sm:pt-16">
         <a href="{{ route('projects.index') }}" wire:navigate class="inline-flex items-center gap-2 font-mono text-sm text-teal hover:text-amber-deep">
-            ← All projects
+            {{ __('projects.all_projects_back') }}
         </a>
 
         <div class="mt-8 flex flex-wrap items-start justify-between gap-4">
             <div>
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">{{ $project->year }} · {{ $project->role }}</span>
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">{{ $project->year }} · {{ $project->t('role') }}</span>
                 <h1 class="mt-2 font-mono text-3xl font-bold leading-tight tracking-tight text-ink sm:text-5xl">{{ $project->title }}</h1>
             </div>
             <x-stamp :status="$project->status" :year="$project->year" rotate="-4deg" class="mt-2" />
         </div>
 
-        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">{{ $project->tagline }}</p>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">{{ $project->t('tagline') }}</p>
     </section>
 
     {{-- Cover --}}
     <section class="mx-auto max-w-5xl px-5 pt-10 sm:px-8">
         <div class="relative aspect-[2/1] overflow-hidden border border-ink bg-card shadow-[6px_6px_0_0_var(--color-ink)]">
             @if ($hasImage)
-                <img src="{{ $imageSrc }}" alt="Screenshot of {{ $project->title }}" class="h-full w-full object-cover">
+                <img src="{{ $imageSrc }}" alt="{{ __('projects.screenshot_of', ['title' => $project->title]) }}" class="h-full w-full object-cover">
             @else
                 <div class="{{ $cover['bg'] }} relative flex h-full w-full items-center justify-center overflow-hidden">
                     <span aria-hidden="true" class="{{ $cover['grid'] }} pointer-events-none absolute inset-0 select-none break-words p-3 font-mono text-xs leading-5">{{ str_repeat($initials . ' ', 400) }}</span>
@@ -54,7 +54,7 @@
         <div class="grid gap-12 md:grid-cols-[1.6fr_1fr]">
             {{-- Case study --}}
             <article class="space-y-5 text-lg leading-relaxed text-ink-soft">
-                <x-eyebrow class="mb-2" as="div">The build</x-eyebrow>
+                <x-eyebrow class="mb-2" as="div">{{ __('projects.the_build') }}</x-eyebrow>
                 @foreach ($paragraphs as $paragraph)
                     <p>{{ $paragraph }}</p>
                 @endforeach
@@ -64,15 +64,15 @@
             <aside class="h-fit md:sticky md:top-24">
                 <div class="border border-ink bg-card shadow-[5px_5px_0_0_var(--color-ink)]">
                     <div class="border-b border-ink px-5 py-3">
-                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">Project file</span>
+                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft">{{ __('projects.project_file') }}</span>
                     </div>
                     <dl class="divide-y divide-line px-5 font-mono text-sm">
                         @php
                             $rows = array_filter([
-                                'Role' => $project->role,
-                                'Client' => $project->client,
-                                'Year' => $project->year,
-                                'Status' => $project->status,
+                                __('projects.role') => $project->t('role'),
+                                __('projects.client') => $project->client,
+                                __('projects.year') => $project->year,
+                                __('projects.status') => __('common.statuses.' . (strtolower($project->status) === 'live' ? 'live' : 'shipped')),
                             ]);
                         @endphp
                         @foreach ($rows as $k => $v)
@@ -86,7 +86,7 @@
 
                     @if (filled($project->tech_stack))
                         <div class="border-t border-line px-5 py-4">
-                            <span class="mb-3 block font-mono text-xs uppercase tracking-[0.12em] text-ink-soft">Stack</span>
+                            <span class="mb-3 block font-mono text-xs uppercase tracking-[0.12em] text-ink-soft">{{ __('projects.stack') }}</span>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach ($project->tech_stack as $tech)
                                     <x-tag>{{ $tech }}</x-tag>
@@ -99,12 +99,12 @@
                         <div class="space-y-2 border-t border-ink p-5">
                             @if ($project->live_url)
                                 <x-btn :href="$project->live_url" variant="primary" size="md" class="w-full" target="_blank" rel="noopener">
-                                    Visit live site ↗
+                                    {{ __('projects.visit_live') }}
                                 </x-btn>
                             @endif
                             @if ($project->repo_url)
                                 <x-btn :href="$project->repo_url" variant="ghost" size="md" class="w-full" target="_blank" rel="noopener">
-                                    View source ↗
+                                    {{ __('projects.view_source') }}
                                 </x-btn>
                             @endif
                         </div>
@@ -118,7 +118,7 @@
     @if ($more->isNotEmpty())
         <section class="border-t border-line bg-card">
             <div class="mx-auto max-w-5xl px-5 py-16 sm:px-8">
-                <x-eyebrow class="mb-8">More work</x-eyebrow>
+                <x-eyebrow class="mb-8">{{ __('projects.more_work') }}</x-eyebrow>
                 <div class="grid gap-6 sm:grid-cols-2">
                     @foreach ($more as $other)
                         <x-project-card :project="$other" />

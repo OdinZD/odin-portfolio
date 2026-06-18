@@ -7,12 +7,10 @@ namespace App\Livewire\Pages;
 use App\Models\Project;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
-#[Title('Projects')]
 final class ProjectIndex extends Component
 {
     #[Url(as: 'tech', keep: false)]
@@ -43,6 +41,6 @@ final class ProjectIndex extends Component
         return view('livewire.pages.project-index', [
             'projects' => $projects,
             'tags' => $tags,
-        ]);
+        ])->title(__('projects.title'));
     }
 }

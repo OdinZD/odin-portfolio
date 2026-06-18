@@ -35,7 +35,7 @@
         @if ($hasImage)
             <img
                 src="{{ $imageSrc }}"
-                alt="Screenshot of {{ $project->title }}"
+                alt="{{ __('projects.screenshot_of', ['title' => $project->title]) }}"
                 class="h-full w-full object-cover"
                 loading="lazy"
             >
@@ -47,7 +47,7 @@
         @endif
 
         <span class="absolute left-3 top-3 font-mono text-[0.65rem] uppercase tracking-[0.15em] {{ $hasImage ? 'bg-ink/80 px-1.5 py-0.5 text-paper' : $cover['sub'] }}">
-            FILE&nbsp;{{ $fileNo }}
+            {{ __('projects.file') }}&nbsp;{{ $fileNo }}
         </span>
 
         <span class="absolute right-3 top-3">
@@ -62,12 +62,12 @@
             <span class="font-mono text-xs text-ink-soft">{{ $project->year }}</span>
         </div>
 
-        <p class="text-sm leading-relaxed text-ink-soft">{{ $project->tagline }}</p>
+        <p class="text-sm leading-relaxed text-ink-soft">{{ $project->t('tagline') }}</p>
 
         <div class="mt-auto flex items-baseline font-mono text-xs text-ink-soft">
-            <span class="uppercase tracking-[0.15em]">{{ $project->role }}</span>
+            <span class="uppercase tracking-[0.15em]">{{ $project->t('role') }}</span>
             <span aria-hidden="true" class="dot-leader"></span>
-            <span class="text-teal transition-colors group-hover:text-amber-deep">open&nbsp;→</span>
+            <span class="whitespace-nowrap text-teal transition-colors group-hover:text-amber-deep">{{ __('projects.open') }}</span>
         </div>
 
         @if ($stack->isNotEmpty())

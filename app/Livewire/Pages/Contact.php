@@ -8,12 +8,10 @@ use App\Models\ContactMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
-#[Title('Contact')]
 final class Contact extends Component
 {
     #[Validate('required|string|min:2|max:120')]
@@ -45,7 +43,7 @@ final class Contact extends Component
         $key = 'contact:'.request()->ip();
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            $this->addError('message', 'You have sent a few messages already — please try again in a minute.');
+            $this->addError('message', __('contact.rate_limited'));
 
             return;
         }
@@ -71,6 +69,6 @@ final class Contact extends Component
 
     public function render(): View
     {
-        return view('livewire.pages.contact');
+        return view('livewire.pages.contact')->title(__('contact.title'));
     }
 }

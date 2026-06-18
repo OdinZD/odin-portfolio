@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ $title ?? 'Web applications, built to ship' }} — {{ config('app.name') }}</title>
-        <meta name="description" content="{{ $description ?? 'Odin Wolf builds and ships production web applications for founders and teams.' }}">
+        <title>{{ $title ?? __('common.meta_title') }} — {{ config('app.name') }}</title>
+        <meta name="description" content="{{ $description ?? __('common.meta_description') }}">
 
         <link rel="icon" href="/favicon.ico?v=2" sizes="any">
         <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
@@ -20,7 +20,7 @@
     <body class="bg-paper bg-grain text-ink antialiased min-h-screen flex flex-col">
         <a href="#main"
            class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:text-paper focus:px-4 focus:py-2 focus:font-mono focus:text-sm">
-            Skip to content
+            {{ __('common.skip_to_content') }}
         </a>
 
         <x-nav />
