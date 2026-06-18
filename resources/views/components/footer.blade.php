@@ -24,9 +24,14 @@
     {{-- Columns --}}
     <div class="mx-auto grid max-w-5xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 font-mono text-base font-bold">
-                <span class="grid h-6 w-6 place-items-center bg-ink text-xs text-paper">OW</span>
-                <span class="text-ink">odin<span class="text-amber-deep">wolf</span></span>
+            <a href="{{ route('home') }}" class="group inline-flex items-center" aria-label="Odin Wolf — home">
+                <img
+                    src="{{ asset('images/Odin-Wolf.png') }}"
+                    alt="Odin Wolf"
+                    width="1260"
+                    height="744"
+                    class="h-10 w-auto transition-opacity group-hover:opacity-80"
+                >
             </a>
             <p class="mt-4 max-w-xs text-sm leading-relaxed text-ink-soft">
                 Freelance web application developer. I design, build, and ship production software for

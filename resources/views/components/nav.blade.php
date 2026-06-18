@@ -12,12 +12,15 @@
     class="sticky top-0 z-40 border-b border-line/80 bg-paper/85 backdrop-blur-sm"
 >
     <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8">
-        {{-- Wordmark --}}
-        <a href="{{ route('home') }}" class="group inline-flex items-center gap-2 font-mono text-base font-bold tracking-tight">
-            <span class="grid h-6 w-6 place-items-center bg-ink text-paper text-xs leading-none transition-colors group-hover:bg-amber group-hover:text-ink">
-                OW
-            </span>
-            <span class="text-ink">odin<span class="text-amber-deep">wolf</span></span>
+        {{-- Logo --}}
+        <a href="{{ route('home') }}" class="group inline-flex items-center" aria-label="Odin Wolf — home">
+            <img
+                src="{{ asset('images/Odin-Wolf.png') }}"
+                alt="Odin Wolf"
+                width="1260"
+                height="744"
+                class="h-8 w-auto sm:h-9 transition-opacity group-hover:opacity-80"
+            >
         </a>
 
         {{-- Desktop links --}}
