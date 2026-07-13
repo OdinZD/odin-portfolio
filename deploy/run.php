@@ -45,9 +45,12 @@ if ($repo === '') {
 if ($repo === '') { $repo = "$HOME/repositories/odin-portfolio2"; }
 
 $PHP = 'php';
-foreach (['/opt/alt/php83/usr/bin/php', '/opt/cpanel/ea-php83/root/usr/bin/php', 'php83', 'ea-php83', 'php'] as $c) {
+foreach ([
+    '/opt/alt/php84/usr/bin/php', '/opt/cpanel/ea-php84/root/usr/bin/php', 'php84', 'ea-php84',
+    '/opt/alt/php83/usr/bin/php', '/opt/cpanel/ea-php83/root/usr/bin/php', 'php83', 'ea-php83', 'php',
+] as $c) {
     $v = @shell_exec(escapeshellarg($c) . ' -v 2>&1');
-    if ($v && stripos($v, 'PHP 8.3') !== false) { $PHP = $c; break; }
+    if ($v && preg_match('/PHP 8\.[34]\./', $v)) { $PHP = $c; break; } // prefer newest (8.4) if present
 }
 
 function sh(string $cmd): int
@@ -128,6 +131,18 @@ switch ($step) {
             echo "\nWARNING: could not read $repo/deploy/index.php\n";
         }
         echo "\nDONE. Load https://odinwolf.eu/ — then DELETE run.php and diagnose.php from public_html.\n";
+        break;
+
+    case 'phpcheck': // list PHP CLI binaries available on this host + versions
+        foreach ([
+            '/opt/alt/php84/usr/bin/php', '/opt/cpanel/ea-php84/root/usr/bin/php', 'php84', 'ea-php84',
+            '/opt/alt/php83/usr/bin/php', '/opt/cpanel/ea-php83/root/usr/bin/php', 'php83', 'ea-php83', 'php',
+        ] as $c) {
+            $v = @shell_exec(escapeshellarg($c) . ' -v 2>&1');
+            $first = $v ? strtok($v, "\n") : 'not found';
+            echo str_pad($c, 44) . $first . "\n";
+        }
+        echo "\nRunner will use: $PHP\n";
         break;
 
     default: // status
