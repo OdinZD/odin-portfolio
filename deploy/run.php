@@ -68,7 +68,8 @@ $step = isset($_GET['step']) ? (string) $_GET['step'] : 'status';
 
 echo str_repeat('=', 64) . "\n";
 echo "MANUAL DEPLOY RUNNER\n";
-echo "repo: $repo\nPHP:  $PHP\nHOME: $HOME\nstep: $step\n";
+echo "web SAPI PHP (serves the live site): " . PHP_VERSION . "\n";
+echo "repo: $repo\nCLI PHP (used by this runner): $PHP\nHOME: $HOME\nstep: $step\n";
 echo str_repeat('=', 64) . "\n";
 
 switch ($step) {
