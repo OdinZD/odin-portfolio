@@ -121,9 +121,15 @@ switch ($step) {
         break;
 
     case 'publish': // copy public/ into web root + point index.php at this repo
+        // Preserve the live .htaccess (it carries cPanel's PHP handler line).
+        $keepHt = is_file("$WEBROOT/.htaccess") ? (string) file_get_contents("$WEBROOT/.htaccess") : null;
         sh('/bin/rm -f ' . escapeshellarg("$WEBROOT/index.html") . ' ' . escapeshellarg("$WEBROOT/index.htm"));
         sh('/bin/rm -rf ' . escapeshellarg("$WEBROOT/build"));
         sh('/bin/cp -R ' . escapeshellarg("$repo/public/.") . ' ' . escapeshellarg("$WEBROOT/"));
+        if ($keepHt !== null) {
+            file_put_contents("$WEBROOT/.htaccess", $keepHt);
+            echo "\n.htaccess preserved (kept the live PHP handler line).\n";
+        }
         $tpl = @file_get_contents("$repo/deploy/index.php");
         if ($tpl !== false) {
             file_put_contents("$WEBROOT/index.php", str_replace('__APP_BASE__', $repo, $tpl));

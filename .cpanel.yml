@@ -13,9 +13,15 @@
 deployment:
   tasks:
     # --- Publish the front-end into the web root ---------------------------------
+    # Preserve the live public_html/.htaccess: cPanel writes the domain's PHP
+    # handler line (e.g. AddHandler ...ea-php84...) into it, and blindly copying
+    # the repo's clean .htaccess over it knocks the site back to the default PHP
+    # version. So back it up, copy, then restore it.
+    - if [ -f "$HOME/public_html/.htaccess" ]; then /bin/cp -f "$HOME/public_html/.htaccess" "$HOME/.htaccess.deploybak"; fi
     - /bin/rm -f "$HOME/public_html/index.html" "$HOME/public_html/index.htm" "$HOME/public_html/default.html" 2>/dev/null || true
     - /bin/rm -rf "$HOME/public_html/build"
     - /bin/cp -R "$(pwd)/public/." "$HOME/public_html/"
+    - if [ -f "$HOME/.htaccess.deploybak" ]; then /bin/mv -f "$HOME/.htaccess.deploybak" "$HOME/public_html/.htaccess"; fi
     - /bin/sed "s#__APP_BASE__#$(pwd)#g" "$(pwd)/deploy/index.php" > "$HOME/public_html/index.php"
 
     # --- Install PHP deps + app setup -------------------------------------------
