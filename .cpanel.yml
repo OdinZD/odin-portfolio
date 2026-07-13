@@ -18,13 +18,42 @@ deployment:
     - /bin/cp -R "$(pwd)/public/." "$HOME/public_html/"
     - /bin/sed "s#__APP_BASE__#$(pwd)#g" "$(pwd)/deploy/index.php" > "$HOME/public_html/index.php"
 
-    # --- Install PHP dependencies (skipped if Composer isn't on the host) --------
-    - if command -v composer >/dev/null 2>&1; then composer install --no-dev --optimize-autoloader --no-interaction --working-dir="$(pwd)"; fi
-
-    # --- App setup (runs only once .env exists AND vendor is installed) ----------
-    - if [ -f "$(pwd)/.env" ] && [ -f "$(pwd)/vendor/autoload.php" ] && ! grep -q "^APP_KEY=base64:" "$(pwd)/.env"; then php "$(pwd)/artisan" key:generate --force; fi
-    - if [ -f "$(pwd)/.env" ] && [ -f "$(pwd)/vendor/autoload.php" ]; then php "$(pwd)/artisan" migrate --force --seed; fi
-    - if [ -f "$(pwd)/.env" ] && [ -f "$(pwd)/vendor/autoload.php" ]; then php "$(pwd)/artisan" config:cache && php "$(pwd)/artisan" route:cache && php "$(pwd)/artisan" view:cache; fi
-
-    # --- Writable runtime directories --------------------------------------------
-    - /bin/chmod -R 775 "$(pwd)/storage" "$(pwd)/bootstrap/cache" 2>/dev/null || true
+    # --- Install PHP deps + app setup -------------------------------------------
+    #     Self-contained: resolves a PHP 8.3+ CLI, bootstraps Composer when the
+    #     host doesn't ship it (this is why the first deploy 500'd — no vendor/),
+    #     installs vendor, then keys/migrates/caches once .env exists. Idempotent,
+    #     so it's safe to re-run on every Deploy HEAD Commit.
+    - |
+      APP="$(pwd)"
+      cd "$APP" || exit 0
+      PHP=""
+      for c in /opt/alt/php83/usr/bin/php /opt/cpanel/ea-php83/root/usr/bin/php php83 ea-php83 php; do
+        if [ -x "$c" ] || command -v "$c" >/dev/null 2>&1; then PHP="$c"; break; fi
+      done
+      echo "Deploy PHP: $PHP"; "$PHP" -v 2>/dev/null | head -1
+      # Install vendor/ if it's missing
+      if [ ! -f "$APP/vendor/autoload.php" ]; then
+        if command -v composer >/dev/null 2>&1; then
+          composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+        else
+          if [ ! -f "$APP/composer.phar" ]; then
+            if command -v curl >/dev/null 2>&1; then
+              curl -sS https://getcomposer.org/download/latest-stable/composer.phar -o "$APP/composer.phar"
+            elif command -v wget >/dev/null 2>&1; then
+              wget -q https://getcomposer.org/download/latest-stable/composer.phar -O "$APP/composer.phar"
+            else
+              "$PHP" -r "copy('https://getcomposer.org/installer','composer-setup.php');" && "$PHP" composer-setup.php --quiet && rm -f composer-setup.php
+            fi
+          fi
+          "$PHP" -d memory_limit=-1 "$APP/composer.phar" install --no-dev --optimize-autoloader --no-interaction --no-scripts
+        fi
+        "$PHP" artisan package:discover --ansi || true
+      fi
+      # App setup — only once .env exists AND vendor is installed
+      if [ -f "$APP/.env" ] && [ -f "$APP/vendor/autoload.php" ]; then
+        grep -q '^APP_KEY=base64:' "$APP/.env" || "$PHP" artisan key:generate --force
+        "$PHP" artisan migrate --force --seed || true
+        "$PHP" artisan config:cache && "$PHP" artisan route:cache && "$PHP" artisan view:cache
+      fi
+      # Writable runtime directories
+      chmod -R 775 "$APP/storage" "$APP/bootstrap/cache" 2>/dev/null || true
