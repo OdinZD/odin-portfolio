@@ -146,6 +146,40 @@ switch ($step) {
         echo "\nRunner will use: $PHP\n";
         break;
 
+    case 'webcheck': // what PHP + handler is actually serving the site
+        echo "web SAPI version : " . PHP_VERSION . "\n";
+        echo "php_sapi_name()  : " . php_sapi_name() . "   (fpm-fcgi = FPM controls version; litespeed/cgi/apache = .htaccess handler controls it)\n";
+        $ht = "$WEBROOT/.htaccess";
+        $c  = is_file($ht) ? (string) file_get_contents($ht) : '';
+        echo "\n--- public_html/.htaccess handler lines ---\n";
+        $found = false;
+        foreach (explode("\n", $c) as $l) {
+            if (stripos($l, 'Handler') !== false || stripos($l, 'x-httpd') !== false || stripos($l, 'ea-php') !== false) { echo "$l\n"; $found = true; }
+        }
+        echo $found ? "" : "(no PHP handler line — domain falls back to cPanel default)\n";
+        break;
+
+    case 'phpfix': // write an ea-php84 handler into .htaccess (for non-FPM hosts)
+        $ht  = "$WEBROOT/.htaccess";
+        $cur = is_file($ht) ? (string) file_get_contents($ht) : '';
+        if (stripos($cur, 'x-httpd-ea-php84') !== false) {
+            echo "ea-php84 handler already present in .htaccess — nothing to do.\n";
+        } else {
+            // strip any older cPanel handler block, then prepend the 8.4 one
+            $cur = preg_replace('/# php -- BEGIN cPanel-generated handler.*?# php -- END cPanel-generated handler, do not edit\s*/s', '', $cur);
+            $block = "# php -- BEGIN cPanel-generated handler, do not edit\n"
+                   . "# Set the \"ea-php84\" package as the default \"PHP\" programming language.\n"
+                   . "<IfModule mime_module>\n"
+                   . "  AddHandler application/x-httpd-ea-php84 .php .php8 .phtml\n"
+                   . "</IfModule>\n"
+                   . "# php -- END cPanel-generated handler, do not edit\n\n";
+            file_put_contents($ht, $block . $cur);
+            echo "Wrote ea-php84 AddHandler to public_html/.htaccess.\n";
+        }
+        echo "\nNow reload https://odinwolf.eu/ . If it's STILL 8.3, the domain uses PHP-FPM\n";
+        echo "and ignores .htaccess — enable PHP-FPM + ea-php84 in MultiPHP Manager instead.\n";
+        break;
+
     default: // status
         sh("ls -la " . escapeshellarg(dirname($repo)));
         sh("$git status --porcelain");
