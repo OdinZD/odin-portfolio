@@ -36,16 +36,19 @@ deployment:
         if command -v composer >/dev/null 2>&1; then
           composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
         else
-          if [ ! -f "$APP/composer.phar" ]; then
+          # Keep composer.phar OUTSIDE the repo so the deploy never dirties the
+          # working tree (a dirty tree greys out cPanel's Deploy button).
+          CPHAR="$HOME/composer.phar"
+          if [ ! -f "$CPHAR" ]; then
             if command -v curl >/dev/null 2>&1; then
-              curl -sS https://getcomposer.org/download/latest-stable/composer.phar -o "$APP/composer.phar"
+              curl -sS https://getcomposer.org/download/latest-stable/composer.phar -o "$CPHAR"
             elif command -v wget >/dev/null 2>&1; then
-              wget -q https://getcomposer.org/download/latest-stable/composer.phar -O "$APP/composer.phar"
+              wget -q https://getcomposer.org/download/latest-stable/composer.phar -O "$CPHAR"
             else
-              "$PHP" -r "copy('https://getcomposer.org/installer','composer-setup.php');" && "$PHP" composer-setup.php --quiet && rm -f composer-setup.php
+              "$PHP" -r "copy('https://getcomposer.org/installer','$HOME/composer-setup.php');" && "$PHP" "$HOME/composer-setup.php" --quiet --install-dir="$HOME" && rm -f "$HOME/composer-setup.php"
             fi
           fi
-          "$PHP" -d memory_limit=-1 "$APP/composer.phar" install --no-dev --optimize-autoloader --no-interaction --no-scripts
+          "$PHP" -d memory_limit=-1 "$CPHAR" install --no-dev --optimize-autoloader --no-interaction --no-scripts
         fi
         "$PHP" artisan package:discover --ansi || true
       fi
