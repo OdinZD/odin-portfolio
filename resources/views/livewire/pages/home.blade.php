@@ -15,7 +15,9 @@
                  tallest line-wrap, so the intro paragraph below never shifts while the
                  typewriter cycles through phrases of different lengths. --}}
             <div class="relative">
-                <p aria-hidden="true" class="invisible font-mono text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
+                {{-- Inline visibility:hidden (not Tailwind's `invisible`) so it works
+                     against the prebuilt production CSS without an asset rebuild. --}}
+                <p aria-hidden="true" style="visibility: hidden;" class="font-mono text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
                     {{ __('home.hero_title_lead') }}<br class="hidden sm:block">
                     <span class="sm:hidden"> </span>{{ __('home.hero_title_that') }}
                     <span>{{ $longestPhrase }}</span><span class="caret"></span>

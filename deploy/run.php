@@ -7,10 +7,10 @@
  * Token-gated, read/write. DELETE this file when finished.
  *
  * USAGE (upload into public_html/, then hit each URL in order):
- *   https://odinwolf.eu/run.php?key=da30ef434c6347c9&step=sync
- *   https://odinwolf.eu/run.php?key=da30ef434c6347c9&step=composer
- *   https://odinwolf.eu/run.php?key=da30ef434c6347c9&step=app
- *   https://odinwolf.eu/run.php?key=da30ef434c6347c9&step=publish
+ *   https://odinwolf.eu/run.php?key=189af89655e4d5aa&step=sync
+ *   https://odinwolf.eu/run.php?key=189af89655e4d5aa&step=composer
+ *   https://odinwolf.eu/run.php?key=189af89655e4d5aa&step=app
+ *   https://odinwolf.eu/run.php?key=189af89655e4d5aa&step=publish
  * (No step, or step=status, just reports state.)
  */
 
@@ -20,7 +20,7 @@ header('Content-Type: text/plain; charset=utf-8');
 while (ob_get_level() > 0) { @ob_end_flush(); }
 @ob_implicit_flush(true);
 
-$SECRET = 'da30ef434c6347c9';
+$SECRET = '189af89655e4d5aa';
 if (!hash_equals($SECRET, (string) ($_GET['key'] ?? ''))) {
     http_response_code(403);
     exit("Forbidden. Append ?key=... to the URL.\n");

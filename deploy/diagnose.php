@@ -9,14 +9,14 @@
  *
  * HOW TO USE (no terminal needed):
  *   1. Upload this file into public_html/ via cPanel File Manager.
- *   2. Visit:  https://odinwolf.eu/diagnose.php?key=da30ef434c6347c9
+ *   2. Visit:  https://odinwolf.eu/diagnose.php?key=189af89655e4d5aa
  *   3. Copy the whole plain-text output back to me.
  *   4. DELETE this file from public_html/ afterwards.
  */
 
 header('Content-Type: text/plain; charset=utf-8');
 
-$SECRET = 'da30ef434c6347c9';
+$SECRET = '189af89655e4d5aa';
 if (!hash_equals($SECRET, (string) ($_GET['key'] ?? ''))) {
     http_response_code(403);
     exit("Forbidden. Append ?key=... to the URL.\n");
