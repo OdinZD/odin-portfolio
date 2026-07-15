@@ -16,8 +16,8 @@ return [
 
     'profile_label' => 'Profile',
     'profile' => [
-        ['k' => 'Name', 'v' => 'Odin Wolf'],
-        ['k' => 'Role', 'v' => 'Web app developer'],
+        ['k' => 'Name', 'v' => 'Odin Wolf Perica'],
+        ['k' => 'Role', 'v' => 'Web app developer · Database engineer (DB2, PostgreSQL)'],
         ['k' => 'Based', 'v' => 'Remote · worldwide'],
         ['k' => 'Focus', 'v' => 'Laravel · Livewire'],
         ['k' => 'Status', 'v' => 'Open to projects'],
@@ -27,7 +27,7 @@ return [
     'toolkit_eyebrow' => 'The toolkit',
     'toolkit_heading' => 'What I work with',
     'toolkit' => [
-        ['group' => 'Backend', 'items' => ['Laravel', 'PHP', 'MySQL', 'PostgreSQL', 'Redis', 'REST APIs']],
+        ['group' => 'Backend', 'items' => ['Laravel', 'PHP', 'MySQL', 'PostgreSQL', 'IBM DB2', 'Redis', 'REST APIs']],
         ['group' => 'Frontend', 'items' => ['Livewire', 'Alpine.js', 'Tailwind CSS', 'Vite', 'JavaScript']],
         ['group' => 'Shipping', 'items' => ['Git', 'Pest', 'CI/CD', 'Docker', 'Forge', 'Cloud hosting']],
     ],

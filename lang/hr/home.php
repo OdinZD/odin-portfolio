@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'hero_eyebrow' => 'Freelance web programer — dostupan za rad',
+    'hero_eyebrow' => 'Freelance web programer i inženjer baza podataka — dostupan za rad',
     'hero_title_lead' => 'Gradim web aplikacije',
     'hero_title_that' => '',
     'typewriter' => [
@@ -12,7 +12,7 @@ return [
         'kojima se ljudi vraćaju.',
         'koje vas neće probuditi u 3 ujutro.',
     ],
-    'hero_intro' => 'Ja sam Odin Wolf — freelance programer koji osmišljava, gradi i isporučuje produkcijski softver od početka do kraja. Osnivači i mali timovi angažiraju me da ideju pretvorim u web aplikaciju koju njihovi korisnici doista koriste.',
+    'hero_intro' => 'Ja sam Odin — freelance web programer i inženjer baza podataka koji osmišljava, gradi i isporučuje produkcijski softver od početka do kraja. Osnivači i mali timovi angažiraju me da ideju pretvorim u web aplikaciju koju njihovi korisnici doista koriste.',
     'cta_view_work' => 'Pogledaj radove →',
     'cta_start' => 'Pokreni projekt',
 

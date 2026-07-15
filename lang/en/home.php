@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'hero_eyebrow' => 'Freelance web developer — available for work',
+    'hero_eyebrow' => 'Freelance web developer & database engineer — available for work',
     'hero_title_lead' => 'I build web applications',
     'hero_title_that' => 'that',
     'typewriter' => [
@@ -12,7 +12,7 @@ return [
         'people come back to.',
         "won't wake you at 3am.",
     ],
-    'hero_intro' => "I'm Odin Wolf — a freelance developer who designs, builds, and ships production software end to end. Founders and small teams hire me to turn an idea into a web app their customers actually use.",
+    'hero_intro' => "I'm Odin — a freelance web developer and database engineer who designs, builds, and ships production software end to end. Founders and small teams hire me to turn an idea into a web app their customers actually use.",
     'cta_view_work' => 'View the work →',
     'cta_start' => 'Start a project',
 

@@ -1,10 +1,22 @@
 <div>
     {{-- Intro --}}
     <section class="mx-auto max-w-5xl px-5 pt-16 sm:px-8 sm:pt-24">
-        <x-eyebrow class="mb-6">{{ __('about.eyebrow') }}</x-eyebrow>
-        <h1 class="max-w-3xl font-mono text-3xl font-bold leading-[1.12] tracking-tight text-ink sm:text-5xl">
-            {{ __('about.heading') }}
-        </h1>
+        <div class="flex flex-col gap-8 sm:flex-row sm:items-center">
+            {{-- Profile picture --}}
+            <img
+                src="{{ asset('images/profile-picture.jpeg') }}"
+                alt="Odin Wolf Perica"
+                width="160"
+                height="160"
+                class="h-32 w-32 shrink-0 rounded-full border-2 border-ink bg-card object-cover shadow-[5px_5px_0_0_var(--color-ink)] sm:h-40 sm:w-40"
+            />
+            <div>
+                <x-eyebrow class="mb-6">{{ __('about.eyebrow') }}</x-eyebrow>
+                <h1 class="max-w-3xl font-mono text-3xl font-bold leading-[1.12] tracking-tight text-ink sm:text-5xl">
+                    {{ __('about.heading') }}
+                </h1>
+            </div>
+        </div>
     </section>
 
     {{-- Bio + facts --}}

@@ -8,7 +8,7 @@ return [
     'about' => 'O meni',
     'contact' => 'Kontakt',
     'start_project' => 'Pokreni projekt',
-    'home_aria' => 'Odin Wolf — početna',
+    'home_aria' => 'Odin — početna',
     'menu' => 'izbornik',
     'close' => 'zatvori',
     'language' => 'Jezik',

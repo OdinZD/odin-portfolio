@@ -16,8 +16,8 @@ return [
 
     'profile_label' => 'Profil',
     'profile' => [
-        ['k' => 'Ime', 'v' => 'Odin Wolf'],
-        ['k' => 'Uloga', 'v' => 'Programer web aplikacija'],
+        ['k' => 'Ime', 'v' => 'Odin Wolf Perica'],
+        ['k' => 'Uloga', 'v' => 'Programer web aplikacija · inženjer baza podataka (DB2, PostgreSQL)'],
         ['k' => 'Lokacija', 'v' => 'Daljinski · diljem svijeta'],
         ['k' => 'Fokus', 'v' => 'Laravel · Livewire'],
         ['k' => 'Status', 'v' => 'Otvoren za projekte'],
@@ -27,7 +27,7 @@ return [
     'toolkit_eyebrow' => 'Alati',
     'toolkit_heading' => 'S čime radim',
     'toolkit' => [
-        ['group' => 'Backend', 'items' => ['Laravel', 'PHP', 'MySQL', 'PostgreSQL', 'Redis', 'REST API-ji']],
+        ['group' => 'Backend', 'items' => ['Laravel', 'PHP', 'MySQL', 'PostgreSQL', 'IBM DB2', 'Redis', 'REST API-ji']],
         ['group' => 'Frontend', 'items' => ['Livewire', 'Alpine.js', 'Tailwind CSS', 'Vite', 'JavaScript']],
         ['group' => 'Isporuka', 'items' => ['Git', 'Pest', 'CI/CD', 'Docker', 'Forge', 'Cloud hosting']],
     ],

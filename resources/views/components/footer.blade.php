@@ -1,8 +1,8 @@
 @php
     $email = 'odinwolfperica@gmail.com';
     $socials = [
-        ['label' => 'GitHub', 'url' => 'https://github.com/'],
-        ['label' => 'LinkedIn', 'url' => 'https://www.linkedin.com/'],
+        ['label' => 'GitHub', 'url' => 'https://github.com/OdinZD'],
+        ['label' => 'LinkedIn', 'url' => 'https://www.linkedin.com/in/odin-wolf-perica-b7b99ba4'],
         ['label' => 'Email', 'url' => 'mailto:' . $email],
     ];
 @endphp

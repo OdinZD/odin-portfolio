@@ -8,7 +8,7 @@ return [
     'about' => 'About',
     'contact' => 'Contact',
     'start_project' => 'Start a project',
-    'home_aria' => 'Odin Wolf — home',
+    'home_aria' => 'Odin — home',
     'menu' => 'menu',
     'close' => 'close',
     'language' => 'Language',
