@@ -1,0 +1,9 @@
+<svg width="480" height="480" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Profile photo placeholder">
+  <rect width="480" height="480" fill="#ece3d1"/>
+  <!-- shoulders -->
+  <path d="M84 480c0-86 70-156 156-156s156 70 156 156" fill="none" stroke="#221f1a" stroke-width="12"/>
+  <!-- head -->
+  <circle cx="240" cy="196" r="92" fill="none" stroke="#221f1a" stroke-width="12"/>
+  <!-- accent ring, echoing the retro stamp -->
+  <circle cx="240" cy="240" r="228" fill="none" stroke="#e0a126" stroke-width="4" stroke-dasharray="10 12"/>
+</svg>
