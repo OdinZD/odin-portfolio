@@ -4,16 +4,34 @@
         <div class="mx-auto max-w-5xl px-5 pb-16 pt-16 sm:px-8 sm:pt-24">
             <x-eyebrow class="mb-6">{{ __('home.hero_eyebrow') }}</x-eyebrow>
 
-            <h1 class="font-mono text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-6xl">
-                {{ __('home.hero_title_lead') }}<br class="hidden sm:block">
-                <span class="sm:hidden"> </span>{{ __('home.hero_title_that') }}
-                <x-typewriter
-                    class="text-amber-deep"
-                    :phrases="__('home.typewriter')"
-                    :speed="60"
-                    :pause="1900"
-                />
-            </h1>
+            @php
+                $phrases = __('home.typewriter');
+                // Monospace title, so the phrase with the most characters always wraps
+                // to the tallest state — use it to reserve height (see the sizer below).
+                $longestPhrase = collect($phrases)->sortByDesc(fn ($p) => mb_strlen((string) $p))->first();
+            @endphp
+
+            {{-- The animated title is overlaid on an invisible sizer pinned to the
+                 tallest line-wrap, so the intro paragraph below never shifts while the
+                 typewriter cycles through phrases of different lengths. --}}
+            <div class="relative">
+                <p aria-hidden="true" class="invisible font-mono text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
+                    {{ __('home.hero_title_lead') }}<br class="hidden sm:block">
+                    <span class="sm:hidden"> </span>{{ __('home.hero_title_that') }}
+                    <span>{{ $longestPhrase }}</span><span class="caret"></span>
+                </p>
+
+                <h1 class="absolute inset-0 font-mono text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-6xl">
+                    {{ __('home.hero_title_lead') }}<br class="hidden sm:block">
+                    <span class="sm:hidden"> </span>{{ __('home.hero_title_that') }}
+                    <x-typewriter
+                        class="text-amber-deep"
+                        :phrases="$phrases"
+                        :speed="60"
+                        :pause="1900"
+                    />
+                </h1>
+            </div>
 
             <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft">
                 {{ __('home.hero_intro') }}
