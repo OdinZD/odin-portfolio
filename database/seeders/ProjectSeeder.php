@@ -21,12 +21,19 @@ final class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
+        $slugs = [];
+
         foreach ($this->projects() as $order => $project) {
             $project['slug'] ??= Str::slug($project['title']);
             $project['sort_order'] = $order;
 
             Project::updateOrCreate(['slug' => $project['slug']], $project);
+            $slugs[] = $project['slug'];
         }
+
+        // Keep the DB in sync with this seeder: drop any project no longer listed
+        // (e.g. removed sample builds), so re-seeding on deploy prunes them too.
+        Project::whereNotIn('slug', $slugs)->delete();
     }
 
     /**
@@ -71,42 +78,6 @@ final class ProjectSeeder extends Seeder
                 I designed and built the site as a living hub: the club's story and coaches, a training schedule, competition results, club news, and a photo gallery the club updates itself after every tournament. Everything works on a phone so members and parents can check times and results on the go.
 
                 The site gives the club a credible public face for attracting new members and sponsors, and an easy way to celebrate results and share photos without relying on social media alone.
-                MD,
-            ],
-            [
-                'title' => 'Cellar',
-                'tagline' => 'Inventory and point-of-sale for an independent wine bar.',
-                'role' => 'Design & build',
-                'client' => 'Cellar & Co.',
-                'year' => '2024',
-                'status' => 'Shipped',
-                'is_featured' => false,
-                'tech_stack' => ['Laravel', 'Livewire', 'Tailwind', 'MySQL'],
-                'live_url' => null,
-                'body' => <<<'MD'
-                A neighbourhood wine bar was tracking three hundred bottles on paper and losing money to bottles that quietly ran out. They needed something staff could learn in one shift.
-
-                I designed and built a touch-first POS with live stock levels, a tasting-note library, and a supplier reorder list that fills itself based on what sells. Everything works on the iPad behind the bar.
-
-                Stocktakes that used to take a full evening now take twenty minutes, and the owner finally trusts the numbers enough to plan the next season's list around them.
-                MD,
-            ],
-            [
-                'title' => 'Studioflow',
-                'tagline' => 'Booking, contracts, and payments for a photography studio.',
-                'role' => 'Solo build',
-                'client' => 'Studioflow',
-                'year' => '2023',
-                'status' => 'Shipped',
-                'is_featured' => false,
-                'tech_stack' => ['Laravel', 'Livewire', 'Tailwind', 'Stripe'],
-                'live_url' => null,
-                'body' => <<<'MD'
-                A portrait studio was losing hours every week to back-and-forth emails: pick a date, sign a contract, pay a deposit, repeat. The admin was eating into shooting time.
-
-                I built a self-serve booking flow where clients choose a slot, sign the agreement, and pay the deposit in one sitting. Each booking pushes straight to the studio's calendar.
-
-                The studio cut its admin roughly in half and stopped double-booking weekends — the system simply won't let a taken slot be booked twice.
                 MD,
             ],
         ];
